@@ -1,0 +1,39 @@
+language: node_js
+node_js:
+- "4"  # nodejs的版本
+branches:
+  only:
+  - pages  # 设置自动化部署的源码分支
+
+# ------------------------------------------------
+# 下面是你的Token加密信息，不要替换
+# ------------------------------------------------
+env:
+  global:  
+    secure: F/gYu+bVe3aWs6Yn.....省略..../iH9ndDyGV5EGR1CmseNGNWrwnRZ7tlKE=
+
+before_install:
+- export TZ='Asia/Shanghai'  
+- npm install -g hexo
+- npm install -g hexo-cli 
+before_script:
+# ------------------------------------------------
+# 设置github账户信息 注意修改成自己的信息
+# ------------------------------------------------
+- git config --global user.name "hiluohao"
+- git config --global user.email 197625807@qq.com
+# ------------------------------------------------
+# github仓库操作  注意将仓库修改成自己的
+# ------------------------------------------------
+- sed -i'' "s~git@github.com:hiluohao/blog.git~https://github.com/hiluohao/blog.git
+~" _config.yml
+# 安装依赖组件
+install:
+- npm install
+# 执行的命令
+script:
+- hexo clean
+- hexo generate
+# 执行的成功后执行 
+after_success:
+- hexo deploy
